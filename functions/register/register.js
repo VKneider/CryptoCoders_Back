@@ -34,7 +34,7 @@ exports.handler = async (event) => {
                     email: p.email,
                     password: p.password,
                 },
-                process.env.JWT_SECRET,
+                "CryptoCoders",
                 { expiresIn: "1h" }
                 );
 
@@ -60,8 +60,8 @@ exports.handler = async (event) => {
             service: "gmail",
             port: 587,
             auth: {
-                user: process.env.NODEMAILER_USER,
-                pass: process.env.NODEMAILER_PW,
+                user: 'cryptocoders2022@gmail.com',
+                pass: 'hxqsxpqacpgxsimu',
             },
             });
 
@@ -70,7 +70,7 @@ exports.handler = async (event) => {
             return {
                 from: "CryptoCoders",
                 to: email,
-                bbc: process.env.NODEMAILER_USER,
+                bbc: "cryptocoders2022@gmail.com",
                 subject: `Confirmacion de tu cuenta de CrytoCoders`,
                 html: `<h2>${names}! Para poder activar la cuenta por favor ingresa en el siguiente link <a href=${verLink}>Activar cuenta</a></h2>`,
             };
@@ -87,7 +87,7 @@ exports.handler = async (event) => {
       
         var expiredFlag=false;
         try {
-            let decoded = jwt.verify(userData[0].verToken,process.env.JWT_SECRET)
+            let decoded = jwt.verify(userData[0].verToken,"CryptoCoders")
             
         } catch (error) {
             
@@ -109,7 +109,7 @@ exports.handler = async (event) => {
                         email: p.email,
                         password: p.password,
                     },
-                    process.env.JWT_SECRET,
+                    "CryptoCoders",
                     { expiresIn: "1h" }
                     );
 
@@ -130,20 +130,20 @@ exports.handler = async (event) => {
                     }});
         
                     const transporter = nodeMailer.createTransport({
-                    service: "gmail",
-                    port: 587,
-                    auth: {
-                        user: process.env.NODEMAILER_USER,
-                        pass: process.env.NODEMAILER_PW,
-                    },
-                    });
+                      service: "gmail",
+                      port: 587,
+                      auth: {
+                          user: 'cryptocoders2022@gmail.com',
+                          pass: 'hxqsxpqacpgxsimu',
+                      },
+                      });
         
                     const accountVerOpt = (user, verLink) => {
                     let { email, names } = user;
                     return {
                         from: "CryptoCoders",
                         to: email,
-                        bbc: process.env.NODEMAILER_USER,
+                        bbc: "cryptocoders2022@gmail.com",
                         subject: `Confirmacion de tu cuenta de CrytoCoders`,
                         html: `<h2>${names}! Para poder activar la cuenta por favor ingresa en el siguiente link <a href=${verLink}>Activar cuenta</a></h2>`,
                     };
