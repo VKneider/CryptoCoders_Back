@@ -76,7 +76,7 @@ exports.handler = async (event) => {
             };
             };
 
-            const verLink = `${process.env.FRONT_URI}/activate-account/${userToken}`;
+            const verLink = `${process.env.FRONT_URI}/verifyEmail/${userToken}/`;
 
             transporter.sendMail(accountVerOpt(p, verLink));
 
