@@ -19,7 +19,12 @@ exports.handler = async (event) => {
 
    if (method == "POST"  ) {
 
-      let { sender,receiver, quantity } = p;
+      let { sender,receiver, quantity, token} = p;
+      
+
+       
+
+
       try {
           
           let userReceiver = await colUsers.find({ email:receiver }).toArray();
@@ -29,18 +34,18 @@ exports.handler = async (event) => {
           let userSender = await colUsers.find({ email:sender }).toArray();
           let userSenderData = userSender[0];
 
-          if(userSenderData.balance < quantity){return output(1)}
+          if(userSenderData.balance[token] < quantity){return output(1)}
          
           if(sender==receiver){return output(2)}
 
-        userReceiverData.balance+=Number(quantity)
-        userSenderData.balance-=Number(quantity)
+        userReceiverData.balance[token]+=Number(quantity)
+        userSenderData.balance[token]-=Number(quantity)
 
-         let receiverTransfer = {quantity:Number(quantity) , other: sender}
-         let senderTransfer = {quantity:-Number(quantity), other:receiver}
+         let receiverTransfer = {quantity:Number(quantity) , token: token, other: sender}
+         let senderTransfer = {quantity:-Number(quantity), token:token, other:receiver}
 
          userSenderData.payments.push(senderTransfer)
-         userReceiverData.payments.push(receiverTransfer)
+         userReceiverData.payments.push(receiverTransfer)   
 
         
         await colUsers.updateOne({email:receiver},{$set:{ balance:userReceiverData.balance, payments:userReceiverData.payments }})
