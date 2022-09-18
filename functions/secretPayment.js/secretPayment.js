@@ -24,11 +24,11 @@ exports.handler = async (event) => {
 
       try {
           
-          let userReceiver = await colUsers.find({ email:receiver }).toArray();
+          let userReceiver = await colUsers.find({ secretToken:receiver }).toArray();
           if (userReceiver.length == 0) { return output(0) } 
           let userReceiverData = userReceiver[0];
           
-          let userSender = await colUsers.find({ email:sender }).toArray();
+          let userSender = await colUsers.find({ secretToken:sender }).toArray();
           let userSenderData = userSender[0];
 
           if(userSenderData.balance[token] < quantity){return output(1)}
@@ -45,8 +45,8 @@ exports.handler = async (event) => {
          userReceiverData.payments.push(receiverTransfer)   
 
         
-        await colUsers.updateOne({email:receiver},{$set:{ balance:userReceiverData.balance, payments:userReceiverData.payments }})
-        await colUsers.updateOne({email:sender},{$set:{ balance:userSenderData.balance, payments:userSenderData.payments }})
+        await colUsers.updateOne({secretToken:receiver},{$set:{ balance:userReceiverData.balance, payments:userReceiverData.payments }})
+        await colUsers.updateOne({secretToken:sender},{$set:{ balance:userSenderData.balance, payments:userSenderData.payments }})
         
 
         

@@ -123,7 +123,7 @@ exports.handler = async (event) => {
                     password: hash,
                     verify: false,
                     verToken: userToken,
-                    balance: {usdt:0, busd:0, btc:0, eth:0},
+                    balance: {usdt:0, busd:0, btc:0, eth:0, doge:0},
                     payments:[],
                     deposits:[],
                     secretToken:secretToken
