@@ -1,6 +1,8 @@
 let { output } = require('../../utils');
 let connectDB = require('../connectDB/connectDB');
 const nodeMailer = require("nodemailer");
+var hbs = require('nodemailer-express-handlebars')
+const path = require ('path')
 
 exports.handler = async (event) => {
 
@@ -28,6 +30,38 @@ exports.handler = async (event) => {
             pass: 'hxqsxpqacpgxsimu',
         },
         });
+        
+        
+
+        const handlebarOptions = {
+            viewEngine: {
+                extName:".html",
+                partialsDir:path.resolve("././views"),
+                defaultLayout:false,
+                
+            }, 
+            viewPath:path.resolve("././views"),
+            extName:".handlebars"
+        }
+
+        transporter.use('compile', hbs(handlebarOptions))
+
+
+
+            const accountVerOpt = (user, verLink) => {
+                let { email, names } = user;
+                return {
+                    from: "CryptoCoders",
+                    to: email,
+                    bbc: "cryptocoders2022@gmail.com",
+                    subject: `Verifica tu cuenta cryptoCoders`,
+                    template:'email',
+                    context:{verLink:'HOLA'}
+                    
+                };
+                };
+
+            
 
 
       let { email } = p;
@@ -42,21 +76,11 @@ exports.handler = async (event) => {
          let rs = Math.random().toString(10).slice(-6)
          let obj = {time:Date.now(), code: rs}
          await colUsers.updateOne({ email }, {$set:{verCode:obj}});
-
-         const accountVerOpt = (user, verLink) => {
-            let { email, names } = user;
-            return {
-                from: "CryptoCoders",
-                to: email,
-                bbc: "cryptocoders2022@gmail.com",
-                subject: `Confirmacion de tu cuenta de CrytoCoders`,
-                html: `<h2>Código de verificación válido por los próximos 5 minutos: ${rs} </h2>`,
-            };
-            };
-
-            transporter.sendMail(accountVerOpt(user[0]));
+         transporter.sendMail(accountVerOpt(user[0]));
+         
          return output(1)
 
       } catch (error) {console.log(error);}
    }
 }
+
