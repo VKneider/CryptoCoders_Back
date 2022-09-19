@@ -17,26 +17,25 @@ exports.handler = async (event) => {
         return output('hola')
      }
 
-    if(method == "GET"){
-
-        let flag;
-        let { email } = p;
-        let user = await colUsers.find({ email}).toArray();
-
-        if(user[0].verify==false){flag=0} else { flag =1}
-        return output(flag)
-
-    }
-
     if(method == "POST"){
 
-        let flag;
-        let { email } = p;
-        let user = await colUsers.find({ email}).toArray();
+        ;
+        let { token } = p;
+        let user = await colUsers.find({ verToken:token}).toArray();
+        let userData= user[0];
 
-        if(user[0].verify==false){flag=0} else { flag =1}
-        return output(flag)
+        if(user.length==0){return output(0)}
+
+        if(userData.verify==true){return output(1)}
+
+        userData.verify=true;
+        await colUsers.updateOne({verToken:token},{$set:{verify:userData.verify}})
+
+        return output(2)
+        
+        
 
     }
+
 
 }

@@ -23,9 +23,7 @@ exports.handler = async (event) => {
       try {
 
          let user = await colUsers.find({ email }).toArray();
-         let flag;
-         if (user.length == 0) { flag = 0 } else { flag = 1 }
-         return output(flag);
+         return output(user[0].balance);
 
       } catch (error) {console.log(error);}
    }
