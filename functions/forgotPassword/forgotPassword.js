@@ -1,5 +1,6 @@
 let { output } = require('../../utils');
 let connectDB = require('../connectDB/connectDB');
+const bcrypt = require("bcrypt");
 
 
 exports.handler = async (event) => {
@@ -19,11 +20,13 @@ exports.handler = async (event) => {
 
    if (method == "POST"  ) {
 
-      let { email } = p;
+      let { email, newPassword } = p;
+      
       try {
-
-          await colUsers.updateOne({ email }, {$set:{password:p.password}});
-
+         
+         let salt = await bcrypt.genSalt(10);
+         let hash = await bcrypt.hash(newPassword, salt);
+         await colUsers.updateOne({ email }, {$set:{password:hash}});
          return output(1);
 
       } catch (error) {console.log(error);}

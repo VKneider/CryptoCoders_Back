@@ -1,6 +1,6 @@
 let { output } = require('../../utils');
 let connectDB = require('../connectDB/connectDB');
-
+const bcrypt = require("bcrypt");
 
 exports.handler = async (event) => {
 
@@ -23,12 +23,18 @@ exports.handler = async (event) => {
            
         let { email,oldPassword, newPassword } = p;
         let user = await colUsers.find({ email }).toArray();
+        let data =  bcrypt.compare(oldPassword, user[0].password)
 
-        if (oldPassword == user[0].password){
+         
+         if (data){
 
-            await colUsers.updateOne({ email }, {$set:{password:newPassword}});
+            let salt = await bcrypt.genSalt(10);
+            let hash = await bcrypt.hash(newPassword, salt);
+            await colUsers.updateOne({ email }, {$set:{password:hash}});
             return output(1)
-        } else { return output(0)}
+
+         } else { return output(0)}
+        
 
          
 
