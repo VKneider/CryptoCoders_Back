@@ -3,7 +3,11 @@ const { output } = require("../../utils");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodeMailer = require("nodemailer");
-//const { transporter, accountVerOpt } = require('../../Utils')
+var hbs = require('nodemailer-express-handlebars')
+const path = require ('path')
+
+
+
 exports.handler = async (event) => {
   let { httpMethod: method, queryStringParameters: p } = event;
 
@@ -66,18 +70,33 @@ exports.handler = async (event) => {
             },
             });
 
-            const accountVerOpt = (user, verLink) => {
+            const handlebarOptions = {
+              viewEngine: {
+                  extName:".html",
+                  partialsDir:path.resolve("././views"),
+                  defaultLayout:false,
+                  
+              }, 
+              viewPath:path.resolve("././views"),
+              extName:".handlebars"
+          }
+
+          transporter.use('compile', hbs(handlebarOptions))
+
+          const accountVerOpt = (user, verLink) => {
             let { email, names } = user;
             return {
                 from: "CryptoCoders",
                 to: email,
                 bbc: "cryptocoders2022@gmail.com",
-                subject: `Confirmacion de tu cuenta de CrytoCoders`,
-                html: `<h2>${names}! Para poder activar la cuenta por favor ingresa en el siguiente link <a href=${verLink}>Activar cuenta</a></h2>`,
+                subject: `Verifica tu cuenta cryptoCoders`,
+                template:'email',
+                context:{verLink:verLink}
+                
             };
             };
 
-            const verLink = `${process.env.FRONT_URI}/verifyEmail/${userToken}/`;
+            const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
 
             transporter.sendMail(accountVerOpt(p, verLink));
 
@@ -139,21 +158,36 @@ exports.handler = async (event) => {
                           pass: 'hxqsxpqacpgxsimu',
                       },
                       });
-        
+          
+                      const handlebarOptions = {
+                        viewEngine: {
+                            extName:".html",
+                            partialsDir:path.resolve("././views"),
+                            defaultLayout:false,
+                            
+                        }, 
+                        viewPath:path.resolve("././views"),
+                        extName:".handlebars"
+                    }
+          
+                    transporter.use('compile', hbs(handlebarOptions))
+          
                     const accountVerOpt = (user, verLink) => {
-                    let { email, names } = user;
-                    return {
-                        from: "CryptoCoders",
-                        to: email,
-                        bbc: "cryptocoders2022@gmail.com",
-                        subject: `Confirmacion de tu cuenta de CrytoCoders`,
-                        html: `<h2>${names}! Para poder activar la cuenta por favor ingresa en el siguiente link <a href=${verLink}>Activar cuenta</a></h2>`,
-                    };
-                    };
-        
-                    const verLink = `${process.env.FRONT_URI}/verifyEmail/${userToken}/`;
-        
-                    transporter.sendMail(accountVerOpt(p, verLink));
+                      let { email, names } = user;
+                      return {
+                          from: "CryptoCoders",
+                          to: email,
+                          bbc: "cryptocoders2022@gmail.com",
+                          subject: `Verifica tu cuenta cryptoCoders`,
+                          template:'email',
+                          context:{verLink:verLink}
+                          
+                      };
+                      };
+          
+                      const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
+          
+                      transporter.sendMail(accountVerOpt(p, verLink));
                     
                     return output(2)
 

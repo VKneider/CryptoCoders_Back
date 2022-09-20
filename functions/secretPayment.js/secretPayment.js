@@ -38,8 +38,8 @@ exports.handler = async (event) => {
         userReceiverData.balance[token]+=Number(quantity)
         userSenderData.balance[token]-=Number(quantity)
 
-         let receiverTransfer = {quantity:Number(quantity) , token: token, other: sender}
-         let senderTransfer = {quantity:-Number(quantity), token:token, other:receiver}
+         let receiverTransfer = {quantity:Number(quantity) , token: token, other: sender, }
+         let senderTransfer = {quantity:-Number(quantity), token:token, other:receiver, }
 
          userSenderData.payments.push(senderTransfer)
          userReceiverData.payments.push(receiverTransfer)   

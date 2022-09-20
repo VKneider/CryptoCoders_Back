@@ -46,21 +46,21 @@ exports.handler = async (event) => {
 
         transporter.use('compile', hbs(handlebarOptions))
 
+        const accountVerOpt = (user, verLink) => {
+            let { email, names } = user;
+            return {
+                from: "CryptoCoders",
+                to: email,
+                bbc: "cryptocoders2022@gmail.com",
+                subject: `cryptoCoders - Código de Autorización`,
+                template:'code',
+                context:{code:verLink}
+                
+            };
+            };
 
 
-            const accountVerOpt = (user, verLink) => {
-                let { email, names } = user;
-                return {
-                    from: "CryptoCoders",
-                    to: email,
-                    bbc: "cryptocoders2022@gmail.com",
-                    subject: `Verifica tu cuenta cryptoCoders`,
-                    template:'email',
-                    context:{verLink:'HOLA'}
-                    
-                };
-                };
-
+            
             
 
 
@@ -76,8 +76,9 @@ exports.handler = async (event) => {
          let rs = Math.random().toString(10).slice(-6)
          let obj = {time:Date.now(), code: rs}
          await colUsers.updateOne({ email }, {$set:{verCode:obj}});
-         transporter.sendMail(accountVerOpt(user[0]));
+         transporter.sendMail(accountVerOpt(user[0], rs));
          
+
          return output(1)
 
       } catch (error) {console.log(error);}
