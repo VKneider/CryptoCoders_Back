@@ -46,14 +46,14 @@ exports.handler = async (event) => {
      
                if(user[0].payments[i].quantity>0){
      
-                   arr.push([user[0].payments[i].token,user[0].payments[i].quantity, user[0].payments[i].other, user[0].email])
+                   arr.push([user[0].payments[i].token,user[0].payments[i].quantity, user[0].payments[i].other, user[0].email,user[0].payments[i].date])
                } else {
-                   arr.push([user[0].payments[i].token,user[0].payments[i].quantity, user[0].email, user[0].payments[i].other])
+                   arr.push([user[0].payments[i].token,user[0].payments[i].quantity, user[0].email, user[0].payments[i].other,user[0].payments[i].date])
                }
      
            }
      
-           var ws_data = [['coin', 'quantity', 'sender', 'receiver'] ]
+           var ws_data = [['coin', 'quantity', 'sender', 'receiver', 'export.payment'] ]
            let j=0;
            for(;j<arr.length;j++){
                ws_data.push(arr[j])
