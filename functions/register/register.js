@@ -63,7 +63,7 @@ exports.handler = async (event) => {
 
             const transporter = nodeMailer.createTransport({
             service: "gmail",
-            port: 465,
+            
             auth: {
                 user: 'cryptocoders2022@gmail.com',
                 pass: 'hxqsxpqacpgxsimu',
@@ -152,7 +152,7 @@ exports.handler = async (event) => {
         
                     const transporter = nodeMailer.createTransport({
                       service: "gmail",
-                      port: 587,
+                      
                       auth: {
                           user: 'cryptocoders2022@gmail.com',
                           pass: 'hxqsxpqacpgxsimu',
