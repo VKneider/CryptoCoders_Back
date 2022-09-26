@@ -62,41 +62,29 @@ exports.handler = async (event) => {
 
             const transporter = nodeMailer.createTransport({
               service: "gmail",
-              port: 465,
+              port:465,
+              
               auth: {
                   user: 'cryptocoders2022@gmail.com',
                   pass: 'hxqsxpqacpgxsimu',
               },
               });
   
-              const handlebarOptions = {
-                viewEngine: {
-                    extName:".html",
-                    partialsDir:path.resolve("././views"),
-                    defaultLayout:false,
-                    
-                }, 
-                viewPath:path.resolve("././views"),
-                extName:".handlebars"
-            }
+              
   
-            transporter.use('compile', hbs(handlebarOptions))
+              const accountVerOpt = (user, verLink) => {
+                let { email } = user;
+                return {
+                    from: "CryptoCoders",
+                    to: email,
+                    bbc: "cryptocoders2022@gmail.com",
+                    subject: `Confirmacion de tu cuenta de CrytoCoders`,
+                    html: `<h2>Para poder activar la cuenta por favor ingresa en el siguiente link <a href=${verLink}>Activar cuenta</a></h2>`,
+                };
+                };
   
-            const accountVerOpt = (user, verLink) => {
-              let { email, names } = user;
-              return {
-                  from: "CryptoCoders",
-                  to: email,
-                  bbc: "cryptocoders2022@gmail.com",
-                  subject: `Verifica tu cuenta cryptoCoders`,
-                  template:'email',
-                  context:{verLink:verLink}
-                  
-              };
-              };
-
               const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
-
+  
               await transporter.sendMail(accountVerOpt(p, verLink));
             
             
@@ -173,7 +161,7 @@ exports.handler = async (event) => {
           
                       const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
           
-                      transporter.sendMail(accountVerOpt(p, verLink));
+                      await transporter.sendMail(accountVerOpt(p, verLink));
                     
                     return output(2)
 

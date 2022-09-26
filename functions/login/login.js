@@ -32,6 +32,7 @@ exports.handler = async (event) => {
         let { email, password } = p;
         let user = await colUsers.find({ email}).toArray();
         if (user.length==0){return output(2)}
+        if(user[0].verify==false){return output(3)}
         let flagPassword= await bcrypt.compare(password,user[0].password)
         return output(Number(flagPassword))
 
