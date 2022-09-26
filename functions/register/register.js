@@ -84,8 +84,8 @@ exports.handler = async (event) => {
 
             const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
 
-            transporter.sendMail(accountVerOpt(p, verLink));
-            console.log(transporter)
+            await transporter.sendMail(accountVerOpt(p, verLink));
+            
             
             return output(1)
 
