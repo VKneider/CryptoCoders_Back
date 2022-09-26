@@ -100,7 +100,7 @@ exports.handler = async (event) => {
 
             transporter.sendMail(accountVerOpt(p, verLink));
 
-            console.log('1')
+            transporter.close()
             return output(1)
 
       } else {//está registrado
@@ -188,7 +188,7 @@ exports.handler = async (event) => {
                       const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
           
                       transporter.sendMail(accountVerOpt(p, verLink));
-                    
+                    transporter.close()
                     return output(2)
 
                 } else {
