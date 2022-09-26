@@ -25,7 +25,7 @@ exports.handler = async (event) => {
         let user = await colUsers.find({ email }).toArray();
         let userData = user [0]
 
-        if(Date.now() > userData.verCode.time + 5 * 60000 ){ return output(0) }
+        if(Date.now() > userData.verCode.time + 3 * 60000 ){ return output(0) }
 
         if (code == userData.verCode.code){return output(1)} else { return output(2)}
         

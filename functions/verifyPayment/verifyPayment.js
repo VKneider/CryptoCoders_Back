@@ -42,7 +42,7 @@ exports.handler = async (event) => {
                 
                 let i=0,index=0;
                 let payments=call.data.data;
-
+                let payLen=payments.length;
                 
                 let admin = await colUsers.find({ email:'jesusdaniolob@gmail.com' }).toArray();
                 let adminData = admin[0];
@@ -54,12 +54,14 @@ exports.handler = async (event) => {
                   if(adminData.payments[j].timestamp==timestamp && adminData.payments[j].quantity==quantity){return output(3)}
                 }
                 
-                do{
-                  
-                  if(payments[i].transactionTime==timestamp && Number(payments[i].amount=quantity)){index=i; flagFound=true};
-                  i++;
+                
 
-                }while(flagFound==false)
+                
+                do{
+                        
+                        if(payments[i].transactionTime==timestamp && Number(payments[i].amount)==quantity){index=i; flagFound=true};
+                        i++ 
+                }while(flagFound==false && i<payLen)
 
                   
                 

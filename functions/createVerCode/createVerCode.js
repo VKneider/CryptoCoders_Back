@@ -24,7 +24,6 @@ exports.handler = async (event) => {
 
     const transporter = nodeMailer.createTransport({
         service: "gmail",
-        port: 587,
         auth: {
             user: 'cryptocoders2022@gmail.com',
             pass: 'hxqsxpqacpgxsimu',
@@ -33,33 +32,17 @@ exports.handler = async (event) => {
         
         
 
-        const handlebarOptions = {
-            viewEngine: {
-                extName:".html",
-                partialsDir:path.resolve("././views"),
-                defaultLayout:false,
-                
-            }, 
-            viewPath:path.resolve("././views"),
-            extName:".handlebars"
-        }
-
-        transporter.use('compile', hbs(handlebarOptions))
 
         const accountVerOpt = (user, verLink) => {
-            let { email, names } = user;
+            let { email } = user;
             return {
                 from: "CryptoCoders",
                 to: email,
                 bbc: "cryptocoders2022@gmail.com",
-                subject: `cryptoCoders - Código de Autorización`,
-                template:'code',
-                context:{code:verLink}
-                
+                subject: `cryptoCoders - Authorization code`,
+                html: `<h2>Your authorization code is ${verLink} </h2>`,
             };
             };
-
-
             
             
 
@@ -71,7 +54,7 @@ exports.handler = async (event) => {
         let userData = user [0]
 
 
-        if(Date.now() < userData.verCode.time + 5 * 60000 ){ return output(0) }
+        if(Date.now() < userData.verCode.time + 3 * 60000 ){ return output(0) }
 
          let rs = Math.random().toString(10).slice(-6)
          let obj = {time:Date.now(), code: rs}
