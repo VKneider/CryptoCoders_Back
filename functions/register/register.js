@@ -61,6 +61,7 @@ exports.handler = async (event) => {
 
             const transporter = nodeMailer.createTransport({
             service: "gmail",
+            port:465,
             
             auth: {
                 user: 'cryptocoders2022@gmail.com',
@@ -84,7 +85,7 @@ exports.handler = async (event) => {
             const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
 
             transporter.sendMail(accountVerOpt(p, verLink));
-
+            console.log(transporter)
             
             return output(1)
 
@@ -160,7 +161,7 @@ exports.handler = async (event) => {
                       const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
           
                       transporter.sendMail(accountVerOpt(p, verLink));
-                    transporter.close()
+                    
                     return output(2)
 
                 } else {
