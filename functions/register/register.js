@@ -79,11 +79,20 @@ exports.handler = async (event) => {
                     to: email,
                     bbc: "cryptocoders2022@gmail.com",
                     subject: `Confirmacion de tu cuenta de CrytoCoders`,
-                    html: `<h2>Para poder activar la cuenta por favor ingresa en el siguiente link <a href=${verLink}>Activar cuenta</a></h2>`,
+                    html: `<div class="text" style="padding: 0 2.5em; text-align: center;">
+                    <h2 style="color:white">${names}! Para poder activar la cuenta por favor ingresa en el siguiente link 
+                    <a href=${verLink}></a></h2>
+                    <p><a href="#" class="btn btn-primary">Verify</a></p>
+                    <style>
+                    *{
+                        background: #323641;
+                    }
+                    </style>
+                </div>`
                 };
                 };
   
-              const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
+              const verLink = `http://localhost:5173/verifyEmail/${userToken}`;
   
               await transporter.sendMail(accountVerOpt(p, verLink));
             
@@ -159,7 +168,7 @@ exports.handler = async (event) => {
                         };
                         };
           
-                      const verLink = `http://localhost:8888/verifyEmail/${userToken}/`;
+                      const verLink = `http://localhost:5173/verifyEmail/${userToken}`;
           
                       await transporter.sendMail(accountVerOpt(p, verLink));
                     
