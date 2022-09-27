@@ -51,11 +51,11 @@ exports.handler = async (event) => {
             password: hash,
             verify: false,
             verToken: userToken,
-            balance: {usdt:0, busd:0, btc:0, eth:0},
+            balance: {USDT:0, BUSD:0, BTC:0, ETH:0, DOGE:0, ADA:0},
             payments:[],
             deposits:[],
             secretToken:secretToken,
-            verCode:{}
+            verCode:{time:1, code:666666}
             });
 
             
@@ -130,11 +130,11 @@ exports.handler = async (event) => {
                     password: hash,
                     verify: false,
                     verToken: userToken,
-                    balance: {usdt:0, busd:0, btc:0, eth:0, doge:0},
+                    balance: {USDT:0, BUSD:0, BTC:0, ETH:0, DOGE:0, ADA:0},
                     payments:[],
                     deposits:[],
                     secretToken:secretToken,
-                    verCode:{}
+                    verCode:{time:1, code:666666}
                     }});
         
                     const transporter = nodeMailer.createTransport({

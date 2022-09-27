@@ -63,17 +63,11 @@ exports.handler = async (event) => {
           
             
     
-            let keys = Object.keys(userSenderData.verCode).length;
+            
             let rs = Number(Math.random().toString(10).slice(-6))
             let obj = {time:Date.now(), code: rs}
             
-            if(keys==0){
-               
-             await colUsers.updateOne({ email:sender }, {$set:{verCode:obj}});
-             transporter.sendMail(accountVerOpt(sender, rs));
-
-             return output(3)
-            }
+            
 
             if(Date.now() < userSenderData.verCode.time + 3 * 60000 ){ transporter.sendMail(accountVerOpt(sender, userSenderData.verCode.code)); return output(4) }
     
