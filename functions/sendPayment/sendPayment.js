@@ -36,7 +36,7 @@ exports.handler = async (event) => {
           
           if(Date.now() > userData.verCode.time + 3 * 60000 ){ return output(0) }
 
-          if (code == userData.verCode.code){return output(1)} else {
+          if (code == userData.verCode.code){
 
 
              userReceiverData.balance[token]+=Number(quantity)
