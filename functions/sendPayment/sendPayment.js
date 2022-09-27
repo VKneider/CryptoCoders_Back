@@ -19,38 +19,45 @@ exports.handler = async (event) => {
 
    if (method == "POST"  ) {
 
-      let { sender,receiver, quantity, token} = p;
+      let { sender,receiver, quantity, token, email, code} = p;
       
 
       try {
           
+         let user = await colUsers.find({ email }).toArray();
+         let userData=user[0]
+
           let userReceiver = await colUsers.find({ email:receiver }).toArray();
-          if (userReceiver.length == 0) { return output(0) } 
           let userReceiverData = userReceiver[0];
           
           let userSender = await colUsers.find({ email:sender }).toArray();
           let userSenderData = userSender[0];
 
-          if(userSenderData.balance[token] < quantity){return output(1)}
-         
-          if(sender==receiver){return output(2)}
+          
+          if(Date.now() > userData.verCode.time + 3 * 60000 ){ return output(0) }
 
-        userReceiverData.balance[token]+=Number(quantity)
-        userSenderData.balance[token]-=Number(quantity)
+          if (code == userData.verCode.code){return output(1)} else {
 
-         let receiverTransfer = {quantity:Number(quantity) , token: token, other: sender, date:Date.now()}
-         let senderTransfer = {quantity:-Number(quantity), token:token, other:receiver, date:Date.now()}
 
-         userSenderData.payments.push(senderTransfer)
-         userReceiverData.payments.push(receiverTransfer)   
+             userReceiverData.balance[token]+=Number(quantity)
+             userSenderData.balance[token]-=Number(quantity)
+     
+              let receiverTransfer = {quantity:Number(quantity) , token: token, other: sender, date:Date.now()}
+              let senderTransfer = {quantity:-Number(quantity), token:token, other:receiver, date:Date.now()}
+     
+              userSenderData.payments.push(senderTransfer)
+              userReceiverData.payments.push(receiverTransfer)   
+     
+             
+             await colUsers.updateOne({email:receiver},{$set:{ balance:userReceiverData.balance, payments:userReceiverData.payments }})
+             await colUsers.updateOne({email:sender},{$set:{ balance:userSenderData.balance, payments:userSenderData.payments }})
+             
+     
+             
+             return output(2)
+          }
+          
 
-        
-        await colUsers.updateOne({email:receiver},{$set:{ balance:userReceiverData.balance, payments:userReceiverData.payments }})
-        await colUsers.updateOne({email:sender},{$set:{ balance:userSenderData.balance, payments:userSenderData.payments }})
-        
-
-        
-        return output(3)
       } catch (error) {console.log(error);}
    }
 }
