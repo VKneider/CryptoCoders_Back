@@ -44,7 +44,7 @@ exports.handler = async (event) => {
                 let i=0,index=0;
                 let payments=call.data.data;
                 let payLen=payments.length;
-                
+                console.log(payments)
                 let admin = await colUsers.find({ email:'jesusdaniolob@gmail.com' }).toArray();
                 let adminData = admin[0];
 
