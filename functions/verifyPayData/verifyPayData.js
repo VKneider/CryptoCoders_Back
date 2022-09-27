@@ -26,15 +26,15 @@ exports.handler = async (event) => {
       try {
           
           let userReceiver = await colUsers.find({ email:receiver }).toArray();
-          if (userReceiver.length == 0) { return output(0) } 
+          if (userReceiver.length == 0) { console.log(0);return output(0) } 
           
           
           let userSender = await colUsers.find({ email:sender }).toArray();
           let userSenderData = userSender[0];
 
-          if(userSenderData.balance[token] < quantity){return output(1)}
+          if(userSenderData.balance[token] < quantity){console.log(1);return output(1)}
          
-          if(sender==receiver){return output(2)}
+          if(sender==receiver){console.log(2);return output(2)}
 
 
           const transporter = nodeMailer.createTransport({
@@ -69,12 +69,12 @@ exports.handler = async (event) => {
             
             
 
-            if(Date.now() < userSenderData.verCode.time + 3 * 60000 ){ transporter.sendMail(accountVerOpt(sender, userSenderData.verCode.code)); return output(4) }
+            if(Date.now() < userSenderData.verCode.time + 3 * 60000 ){ transporter.sendMail(accountVerOpt(sender, userSenderData.verCode.code)); console.log(4);return output(4) }
     
              
              await colUsers.updateOne({ email:sender }, {$set:{verCode:obj}});
              transporter.sendMail(accountVerOpt(sender, rs));
-
+             console.log(5);
              return output(5)
 
 
