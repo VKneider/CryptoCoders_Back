@@ -83,7 +83,7 @@ exports.handler = async (event) => {
                 };
                 };
   
-              const verLink = `http://localhost:5173/verifyEmail/${userToken}`;
+              const verLink = `https://cryptocoders-pi.vercel.app/${userToken}`;
   
               await transporter.sendMail(accountVerOpt(p, verLink));
             
