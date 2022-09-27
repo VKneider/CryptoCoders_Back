@@ -55,6 +55,9 @@ exports.handler = async (event) => {
      
              
              return output(2)
+          } else {
+
+            return output(1)
           }
           
 
