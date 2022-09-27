@@ -70,7 +70,7 @@ exports.handler = async (event) => {
                
                 let flagCurrency=true;
                 
-                if(payments[index].currency !='USDT' && payments[index].currency !='BUSD'  && payments[index].currency !='BNB' ){flagCurrency=false; return output(2)};
+                if(payments[index].currency !='USDT' && payments[index].currency !='BUSD'  && payments[index].currency !='BTC' && payments[index].currency !='ETH'  && payments[index].currency !='DOGE'  && payments[index].currency !='ADA' ){flagCurrency=false; return output(2)};
                 
                 if(flagCurrency == true && flagFound==true){
                   
@@ -79,7 +79,7 @@ exports.handler = async (event) => {
                   await colUsers.updateOne({email:'jesusdaniolob@gmail.com'},{$set:{deposits:adminData.deposits }})
 
                   userData.deposits.push(payments[index])
-                  userData.balance+=Number(payments[index].amount)
+                  userData.balance[payments[index].currency]+=Number(payments[index].amount)
                    await colUsers.updateOne({email:email},{$set:{deposits:userData.deposits, balance:userData.balance}})
                   return output(1)
 
