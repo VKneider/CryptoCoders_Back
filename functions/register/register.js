@@ -80,7 +80,7 @@ exports.handler = async (event) => {
                     bbc: "cryptocoders2022@gmail.com",
                     subject: `Confirmacion de tu cuenta de CrytoCoders`,
                     html: `<div class="text" style="padding: 0 2.5em; text-align: center;">
-                    <h2 style="color:white">${names}! Para poder activar la cuenta por favor ingresa en el siguiente link 
+                    <h2 style="color:white">$Para poder activar la cuenta por favor ingresa en el siguiente link 
                     <a href=${verLink}></a></h2>
                     <p><a href="#" class="btn btn-primary">Verify</a></p>
                     <style>
