@@ -39,7 +39,8 @@ exports.handler = async (event) => {
 
                 let date = new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`)
                 let timestamp = date.getTime();
-                
+                console.log(date)
+                console.log(timestamp)
                 let i=0,index=0;
                 let payments=call.data.data;
                 let payLen=payments.length;
@@ -51,7 +52,7 @@ exports.handler = async (event) => {
                 let j=0;
 
                 for(;j<totalPaymentsLen;j++){
-                  if(adminData.payments[j].timestamp==timestamp && adminData.payments[j].quantity==quantity){return output(3)}
+                  if(adminData.payments[j].timestamp==timestamp && adminData.payments[j].quantity==quantity){console.log(3);return output(3)}
                 }
                 
                 
@@ -66,7 +67,7 @@ exports.handler = async (event) => {
                   
                 
                 
-                if(flagFound==false){return output(0)} // no se consiguió la transferencia
+                if(flagFound==false){console.log(0);return output(0)} // no se consiguió la transferencia
                
                 let flagCurrency=true;
                 
@@ -81,6 +82,7 @@ exports.handler = async (event) => {
                   userData.deposits.push(payments[index])
                   userData.balance[payments[index].currency]+=Number(payments[index].amount)
                    await colUsers.updateOne({email:email},{$set:{deposits:userData.deposits, balance:userData.balance}})
+                   console.log(1);
                   return output(1)
 
                 }
