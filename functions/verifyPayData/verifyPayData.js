@@ -73,7 +73,7 @@ exports.handler = async (event) => {
     
              
              await colUsers.updateOne({ email:sender }, {$set:{verCode:obj}});
-             transporter.sendMail(accountVerOpt(sender, rs));
+            await  transporter.sendMail(accountVerOpt(sender, rs));
              console.log(5);
              return output(5)
 
