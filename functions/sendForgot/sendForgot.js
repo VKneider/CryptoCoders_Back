@@ -62,7 +62,7 @@ exports.handler = async (event) => {
                     { expiresIn: "5m" }
                     );
     
-                    const verLink = `https://cryptocoders-pi.vercel.app/${userToken}`;
+                    const verLink = `https://cryptocoders-pi.vercel.app/ForgotPassword/${userToken}`;
                     
 
 
