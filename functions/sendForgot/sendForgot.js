@@ -67,7 +67,7 @@ exports.handler = async (event) => {
 
 
 
-                transporter.sendMail(accountVerOpt(email, verLink));
+                await transporter.sendMail(accountVerOpt(email, verLink));
                 return output(2)
         
             
