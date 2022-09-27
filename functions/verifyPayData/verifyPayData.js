@@ -47,10 +47,10 @@ exports.handler = async (event) => {
             
             
             const accountVerOpt = (user, verLink) => {
-                let { email } = user;
+                
                 return {
                     from: "CryptoCoders",
-                    to: email,
+                    to: user,
                     bbc: "cryptocoders2022@gmail.com",
                     subject: `cryptoCoders - Authorization code`,
                     html: `<h2>Your authorization code is ${verLink} </h2>`,
@@ -61,17 +61,27 @@ exports.handler = async (event) => {
     
     
           
-            let userData = user [0]
+            
     
-    
-            if(Date.now() < userData.verCode.time + 3 * 60000 ){ return output(3) }
-    
-             let rs = Math.random().toString(10).slice(-6)
-             let obj = {time:Date.now(), code: rs}
-             await colUsers.updateOne({ email }, {$set:{verCode:obj}});
-             transporter.sendMail(accountVerOpt(user[0], rs));
+            let keys = Object.keys(userSenderData.verCode).length;
+            let rs = Number(Math.random().toString(10).slice(-6))
+            let obj = {time:Date.now(), code: rs}
+            
+            if(keys==0){
+               
+             await colUsers.updateOne({ email:sender }, {$set:{verCode:obj}});
+             transporter.sendMail(accountVerOpt(sender, rs));
 
-             return output(4)
+             return output(3)
+            }
+
+            if(Date.now() < userSenderData.verCode.time + 3 * 60000 ){ transporter.sendMail(accountVerOpt(sender, userSenderData.verCode.code)); return output(4) }
+    
+             
+             await colUsers.updateOne({ email:sender }, {$set:{verCode:obj}});
+             transporter.sendMail(accountVerOpt(sender, rs));
+
+             return output(5)
 
 
 
