@@ -18,7 +18,7 @@ exports.handler = async (event) => {
    }
 
    if (method == "POST"  ) {
-
+      console.log(p)
       let { sender,receiver, quantity, token, email, code} = p;
       
 
